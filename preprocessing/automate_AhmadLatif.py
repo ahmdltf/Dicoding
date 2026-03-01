@@ -11,10 +11,24 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 # LOAD DATASET
 # ======================================
 def load_data(path):
-    """Memuat dataset mentah"""
-    df = pd.read_csv(path)
-    return df
 
+    # jika file tidak ada → download otomatis
+    if not os.path.exists(path):
+        print("Dataset tidak ditemukan. Mengunduh dataset...")
+
+        url = "https://archive.ics.uci.edu/static/public/352/data.csv"
+
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+
+        df = pd.read_csv(url)
+        df.to_csv(path, index=False)
+
+        print("Dataset berhasil diunduh.")
+
+    # load dataset
+    df = pd.read_csv(path)
+
+    return df
 
 # ======================================
 # DATA CLEANING
